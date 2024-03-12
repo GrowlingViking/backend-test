@@ -31,6 +31,7 @@ public class CoverService: ICoverService
 
     public async Task CreateCoverAsync(Cover cover)
     {
+        ValidateCover(cover);
         cover.Id = Guid.NewGuid().ToString();
         cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
         await _cosmosDbService.AddCoverAsync(cover);
@@ -77,5 +78,23 @@ public class CoverService: ICoverService
         }
 
         return totalPremium;
+    }
+
+    private void ValidateCover(Cover cover)
+    {
+        if (cover.StartDate > DateOnly.FromDateTime(DateTime.Now))
+        {
+            throw new ArgumentException("Cover StartDate is in the past");
+        }
+
+        if (cover.StartDate > cover.EndDate)
+        {
+            throw new ArgumentException("EndDate is before Startdate");
+        }
+
+        if (cover.StartDate.DayNumber - cover.EndDate.DayNumber > 365)
+        {
+            throw new ArgumentException("The insurance period exceeds 1 year");
+        }
     }
 }
