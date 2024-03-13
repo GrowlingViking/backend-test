@@ -1,4 +1,3 @@
-using System.Configuration;
 using System.Text.Json.Serialization;
 using Claims.Auditing;
 using Claims.Services;
@@ -14,10 +13,15 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     }
 );
 
-builder.Services.AddSingleton(
+builder.Services.AddSingleton<ICosmosDbService>(
     InitializeCosmosClientInstanceAsync(builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
 builder.Services.AddDbContext<AuditContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// builder.Services.AddScoped<ICosmosDbService, CosmosDbService>();
+builder.Services.AddScoped<IClaimService, ClaimService>();
+builder.Services.AddScoped<ICoverService, CoverService>();
+builder.Services.AddScoped<IAuditer, Auditer>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

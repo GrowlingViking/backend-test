@@ -1,17 +1,15 @@
 using Claims.Auditing;
-using Claims.Controllers;
-using Microsoft.Azure.Cosmos;
 namespace Claims.Services;
 
 public class CoverService: ICoverService
 {
-    private readonly ILogger<CoverService> _logger;
-    private readonly Auditer _auditer;
+    private readonly ILogger<ICoverService> _logger;
+    private readonly IAuditer _auditer;
     private readonly ICosmosDbService _cosmosDbService;
 
     public CoverService(
-        ILogger<CoverService> logger, 
-        Auditer auditer, 
+        ILogger<ICoverService> logger, 
+        IAuditer auditer, 
         ICosmosDbService cosmosDbService)
     {
         _logger = logger;

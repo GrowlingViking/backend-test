@@ -1,23 +1,22 @@
 using Claims.Auditing;
-using Claims.Controllers;
 namespace Claims.Services;
 
 public class ClaimService: IClaimService
 {
-    private readonly ILogger<ClaimsController> _logger;
+    private readonly ILogger<IClaimService> _logger;
     private readonly ICosmosDbService _cosmosDbService;
-    private readonly Auditer _auditer;
+    private readonly IAuditer _auditer;
     private readonly ICoverService _coverService;
 
     public ClaimService(
-        ILogger<ClaimsController> logger, 
+        ILogger<IClaimService> logger, 
         ICosmosDbService cosmosDbService, 
-        AuditContext auditContext,
+        IAuditer auditer,
         ICoverService coverService)
     {
         _logger = logger;
         _cosmosDbService = cosmosDbService;
-        _auditer = new Auditer(auditContext);
+        _auditer = auditer;
         _coverService = coverService;
     }
 
