@@ -3,21 +3,19 @@ namespace Claims.Services;
 
 public class CosmosDbService: ICosmosDbService
 {
-    private readonly Container _claimsContainer;
-    private readonly Container _coversContainer;
+    private readonly Container _container;
 
     public CosmosDbService(CosmosClient dbClient,
         string databaseName,
         string containerName)
     {
         if (dbClient == null) throw new ArgumentNullException(nameof(dbClient));
-        _claimsContainer = dbClient.GetContainer(databaseName, containerName);
-        _coversContainer = dbClient.GetContainer(databaseName, "Cover");
+        _container = dbClient.GetContainer(databaseName, containerName);
     }
 
     public async Task<IEnumerable<Claim>> GetClaimsAsync()
     {
-        var query = _claimsContainer.GetItemQueryIterator<Claim>(new QueryDefinition("SELECT * FROM c"));
+        var query = _container.GetItemQueryIterator<Claim>(new QueryDefinition("SELECT * FROM c"));
         var results = new List<Claim>();
         while (query.HasMoreResults)
         {
@@ -30,7 +28,7 @@ public class CosmosDbService: ICosmosDbService
     
     public async Task<IEnumerable<Cover>> GetCoversAsync()
     {
-        var query = _coversContainer.GetItemQueryIterator<Cover>(new QueryDefinition("SELECT * FROM c"));
+        var query = _container.GetItemQueryIterator<Cover>(new QueryDefinition("SELECT * FROM c"));
         var results = new List<Cover>();
         while (query.HasMoreResults)
         {
@@ -46,7 +44,7 @@ public class CosmosDbService: ICosmosDbService
     {
         try
         {
-            var response = await _claimsContainer.ReadItemAsync<Claim>(id, new PartitionKey(id));
+            var response = await _container.ReadItemAsync<Claim>(id, new PartitionKey(id));
             return response.Resource;
         }
         catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -59,7 +57,7 @@ public class CosmosDbService: ICosmosDbService
     {
         try
         {
-            var response = await _coversContainer.ReadItemAsync<Cover>(id, new PartitionKey(id));
+            var response = await _container.ReadItemAsync<Cover>(id, new PartitionKey(id));
             return response.Resource;
         }
         catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -70,21 +68,21 @@ public class CosmosDbService: ICosmosDbService
 
     public Task AddClaimAsync(Claim item)
     {
-        return _claimsContainer.CreateItemAsync(item, new PartitionKey(item.Id));
+        return _container.CreateItemAsync(item, new PartitionKey(item.Id));
     }
     
     public Task AddCoverAsync(Cover item)
     {
-        return _coversContainer.CreateItemAsync(item, new PartitionKey(item.Id));
+        return _container.CreateItemAsync(item, new PartitionKey(item.Id));
     }
 
     public Task DeleteClaimAsync(string id)
     {
-        return _claimsContainer.DeleteItemAsync<Claim>(id, new PartitionKey(id));
+        return _container.DeleteItemAsync<Claim>(id, new PartitionKey(id));
     }
     
     public Task DeleteCoverAsync(string id)
     {
-        return _coversContainer.DeleteItemAsync<Claim>(id, new PartitionKey(id));
+        return _container.DeleteItemAsync<Cover>(id, new PartitionKey(id));
     }
 }
