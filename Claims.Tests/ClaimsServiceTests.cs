@@ -44,8 +44,8 @@ public class ClaimsServiceTests
             Id = "test",
             Type = CoverType.Yacht,
             Premium = 90000,
-            StartDate = new DateOnly(2023, 04, 12),
-            EndDate = new DateOnly(2025, 01, 12)
+            StartDate = DateOnly.FromDateTime(DateTime.Now - TimeSpan.FromDays(200)),
+            EndDate = DateOnly.FromDateTime(DateTime.Now + TimeSpan.FromDays(150))
         };
         
         // set up returns from mocked services
@@ -77,8 +77,8 @@ public class ClaimsServiceTests
             Id = "test",
             Type = CoverType.Yacht,
             Premium = 90000,
-            StartDate = new DateOnly(2023, 04, 12),
-            EndDate = new DateOnly(2025, 01, 12)
+            StartDate = DateOnly.FromDateTime(DateTime.Now - TimeSpan.FromDays(200)),
+            EndDate = DateOnly.FromDateTime(DateTime.Now + TimeSpan.FromDays(150))
         };
         
         // set up returns from mocked services
@@ -108,8 +108,8 @@ public class ClaimsServiceTests
             Id = "test",
             Type = CoverType.Yacht,
             Premium = 90000,
-            StartDate = new DateOnly(2023, 04, 12),
-            EndDate = new DateOnly(2025, 01, 12)
+            StartDate = DateOnly.FromDateTime(DateTime.Now - TimeSpan.FromDays(200)),
+            EndDate = DateOnly.FromDateTime(DateTime.Now + TimeSpan.FromDays(150))
         };
         
         // set up returns from mocked services

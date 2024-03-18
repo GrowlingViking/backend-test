@@ -80,7 +80,7 @@ public class CoverService: ICoverService
 
     private void ValidateCover(Cover cover)
     {
-        if (cover.StartDate > DateOnly.FromDateTime(DateTime.Now))
+        if (cover.StartDate < DateOnly.FromDateTime(DateTime.Now))
         {
             throw new ArgumentException("Cover StartDate is in the past");
         }
@@ -90,7 +90,7 @@ public class CoverService: ICoverService
             throw new ArgumentException("EndDate is before Startdate");
         }
 
-        if (cover.StartDate.DayNumber - cover.EndDate.DayNumber > 365)
+        if (cover.EndDate.DayNumber - cover.StartDate.DayNumber > 365)
         {
             throw new ArgumentException("The insurance period exceeds 1 year");
         }
