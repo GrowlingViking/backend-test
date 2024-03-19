@@ -62,20 +62,25 @@ public class CoverService: ICoverService
         {
             switch (i)
             {
+                // First 30 days unchanged
                 case < 30:
                     totalPremium += premiumPerDay;
                     break;
+                // the following 150 days discounted 5% for yachts
                 case < 180 when coverType == CoverType.Yacht:
                     totalPremium += premiumPerDay - premiumPerDay * 0.05m;
                     break;
+                // the following 150 days discounted 2% for others
                 case < 180:
                     totalPremium += premiumPerDay - premiumPerDay * 0.02m;
                     break;
+                // the remaining days are discounted additional 3% for yachts
                 case < 365 when coverType == CoverType.Yacht:
-                    totalPremium += premiumPerDay - premiumPerDay * 0.03m;
+                    totalPremium += premiumPerDay - premiumPerDay * 0.08m;
                     break;
+                // the remaining days are discounted additional 1% for others
                 case < 365:
-                    totalPremium += premiumPerDay - premiumPerDay * 0.01m;
+                    totalPremium += premiumPerDay - premiumPerDay * 0.03m;
                     break;
             }
         }
