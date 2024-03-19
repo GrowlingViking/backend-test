@@ -54,6 +54,7 @@ As you can see, the API supports some basic REST operations. But validation is m
 
 ### Task 3
 Auditing. The basics are there, but the execution of the DB command (INSERT & DELETE) blocks the processing of the HTTP request. How can this be improved? Look into some asynchronous patterns. It is ok to introduce an Azure managed service to help you with this (ServiceBus/EventGrid/Whatever), but that is not required. Whatever you can manage to get working which is in-memory is also ok.
+#### I didn't have the time to properly explore this task. Quickly I thought about creating something like a hangfire service that handles asynchronous jobs like the auditing in this case. 
 
 ### Task 4
 One basic test is included, please add other (mandatory) unit tests. Note: If you start on this task first, you will find it hard to write proper tests. Some refactoring of the Claims API will be needed. 
